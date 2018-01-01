@@ -40,4 +40,4 @@ function wafflehouse() {
             }
     })
 }
-wafflehouse()
+console.log(fourSqURL)

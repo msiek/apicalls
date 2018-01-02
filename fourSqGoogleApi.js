@@ -25,9 +25,7 @@ function wafflehouse() {
                 wflat = wf.response.venues[i].location.lat
                 wflong = wf.response.venues[i].location.lng
                 googleURL = `${baseGoogleURL}&origins=${lat},${long}&destinations=${wflat},${wflong}&key=${distanceAPIKey}`
-                if(wf.response.venues[i].location.lat && wf.response.venues[i].location.lng ==' '){
-
-                }else {
+                console.log(googleURL)
                         request.get(googleURL, function (err, res, body){
                             const time = JSON.parse(body)
                             const locate = time.destination_addresses[0]
@@ -35,9 +33,9 @@ function wafflehouse() {
                             const eta = time.rows[0].elements[0].duration.text
                             console.log(`Name: ${where}\nAddress: ${locate}\nDistance: ${distance} \nETA: ${eta}\n`)
                         })
-                    }
+
                 }
             }
     })
 }
-console.log(fourSqURL)
+wafflehouse()

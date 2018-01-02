@@ -1,28 +1,24 @@
-require('request')
-const request = require('request-promise-native')
-let root = 'https://jsonplaceholder.typicode.com/users/'
-
-function testAPI() {
-    for(i=1; i<10; i++){
-        APICall = root
-        APICall = APICall+[i]
-        request.get(APICall, function(err, res, body){
-            if(err){
-                console.log(err)
-            }else {
-                const user = JSON.parse(body)
-                if (user.username == 'Bret'){
-
-                }else {
-                    const name = user.name
-                    const username = user.username
-                    const street = user.address.street
-                    const city = user.address.city
-                    console.log(`${name}\n${username}\n${street} ${city}\n`)
-                }
-            }
-        })
+var json2csv = require('json2csv');
+var fs = require('fs');
+var fields = ['car', 'price', 'color'];
+var myCars = [
+    {
+        "car": "Audi",
+        "price": 40000,
+        "color": "blue"
+    }, {
+        "car": "BMW",
+        "price": 35000,
+        "color": "black"
+    }, {
+        "car": "Porsche",
+        "price": 60000,
+        "color": "green"
     }
-}
+];
+var csv = json2csv({ data: myCars, fields: fields });
 
-testAPI()
+fs.writeFile('file.csv', csv, function(err) {
+    if (err) throw err;
+    console.log('file saved');
+});

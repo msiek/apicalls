@@ -1,12 +1,10 @@
 require('request')
-const index = require('./routes').router
+const index         = require('./routes').router
 const express       =  require('express');
 const app           =  express();
 const port          =  process.env.PORT || 8080;
 
 app.use('/', index)
 
-// START THE SERVER
-// ==============================================
 app.listen(port);
 console.log('Server Starts on Port: ' + port);

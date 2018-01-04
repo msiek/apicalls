@@ -1,30 +1,20 @@
-function wafflehouse(lat, long, cb){
-    const fourSqURL = `${baseFourSqURL}/search?ll=${lat},${long}&client_id=${clientID}&client_secret=${clientSecret}&v=${version}&query=${location}&limit=${limit}`
+const clientID      = 'GRGLBQDIY40TNUGKHJAPFOJAV0ZQF1ZZ1ASAGU14C4VGQI2Z'
+const clientSecret  = 'ZOEYJUIIE2BT0DMFPYXHIBB0M0XTJ33ILIANKPIH4BSKCSWR'
+const request = require('request-promise-native')
+const Foursq = require('foursquarevenues')
+const lat           =  33.743629
+const long          = -78.900706
+const googleAPI = 'AIzaSyBUPf8aZCPRKL3zZAGvr-FK3MiYFQ6sEUw'
+const NodeGeocoder = require('node-geocoder')
+const options = {
+    provider: 'google',
+    httpAdapter: 'https',
+    apiKey: googleAPI,
 }
-request.get(fourSqURL, function(err, res, body){
-    if(err){
-        console.log(err)
-    }else {
-        const wf = JSON.parse(body)
-        for(i=0;i<limit; i++){
-            const distance = wf.response.venues[i].location.distance/1609.344
-            const name = wf.response.venues[i].name
-            const addr = wf.response.venues[i].location.address
-            const phone = wf.response.venues[i].contact.formattedPhone
-            if(addr != addr){
-                if(name == where){
-                    model = {
-                        Name: name,
-                        Address: addr,
-                        Phone: phone,
-                        Distance: distance.toFixed(2)
-                    }
-                    results.push(model)
-                    cb(results)
-                }
-            }else{
+const geocoder = NodeGeocoder(options)
+geocoder.reverse({lat:lat, lon:long}, function(err, res) {
+    const test = res
+    return test
+});
 
-            }
-        }
-    }
-})
+console.log(test)

@@ -9,7 +9,12 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2",
+    "foursquare-venues": "0.0.3",
+    "foursquarevenues": "^3.0.1",
+    "geocoder": "^0.2.3",
     "json2csv": "^3.11.5",
+    "nice-json2csv": "^0.2.2",
+    "node-geocoder": "^3.21.1",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
   },

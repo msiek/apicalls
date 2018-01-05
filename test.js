@@ -8,8 +8,11 @@ const googleAPI = 'AIzaSyBUPf8aZCPRKL3zZAGvr-FK3MiYFQ6sEUw'
 const NodeGeocoder = require('node-geocoder')
 const geocoder      = require('geocoder')
 const results = []
-addr = geocoder.reverseGeocode(lat, long, function(err, data, cb) {
+
+geocoder.reverseGeocode(lat, long, function (err, data) {
     addr = data.results[0].formatted_address
-    console.log(addr)
-    return cb(addr)
+    address = addr
+    console.log(address)
+    return data(address)
+
 })

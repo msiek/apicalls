@@ -6,18 +6,18 @@ const long     = -78.900706;
 const app      = express;
 
 
-exports.search = (req, res) => {
+exports.waffles = (req, res) => {
     const latitude = req.query.lat
     const longitude = req.query.long
-    wf.waffles(latitude, longitude, (call) => {
-        res.json(call)
-    })
-}
-
-exports.waffles = (req, res) => {
-    wf.waffles(lat, long, (call) => {
-        res.json(call)
-    })
+    if(latitude != " " && longitude != " "){
+        wf.waffles(lat,long, (call)=> {
+            res.json(call)
+        })
+    }else {
+        wf.waffles(latitude, longitude, (call) => {
+            res.json(call)
+        })
+    }
 }
 
 exports.world = (req, res) => {

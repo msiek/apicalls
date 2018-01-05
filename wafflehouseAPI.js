@@ -1,5 +1,6 @@
 require('request')
 const request       =  require('request-promise-native')
+const geocoder      = require('geocoder')
 const limit         =  10
 const clientID      = 'GRGLBQDIY40TNUGKHJAPFOJAV0ZQF1ZZ1ASAGU14C4VGQI2Z'
 const clientSecret  = 'ZOEYJUIIE2BT0DMFPYXHIBB0M0XTJ33ILIANKPIH4BSKCSWR'
@@ -7,8 +8,9 @@ const location      = 'wafflehouse'
 const where         = 'Waffle House'
 const version       = '20170801'
 const baseFourSqURL = 'https://api.foursquare.com/v2/venues'
-const geocoder      = require('geocoder')
-exports.waffles = (lat, long, cb) => {
+const lat      =  33.743629;
+const long     = -78.900706;
+exports.waffles = function wafflehouse (lat, long, cb) {
     const results = []
     const url = `${baseFourSqURL}/search?ll=${lat},${long}&client_id=${clientID}&client_secret=${clientSecret}&v=${version}&query=${location}&limit=${limit}`
     request.get(url, (err, res, body) => {

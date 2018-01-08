@@ -1,12 +1,10 @@
-const express    = require('express')
-const controller = require('./controller/index')
-const router     = express.Router()
-const app        = express
+const express = require('express');
+const controller = require('./controllers');
 
-// app.use(json2csv.expressDecorator)
+const router = express.Router();
 
-router.get('/wafflehouse', controller.waffles)
-router.get('/csv', controller.csv)
-router.get('/', controller.world)
+router.get('/wafflehouse', controller.waffles);
+router.get('/csv', controller.csv);
+router.get('/', controller.homepage);
 
-module.exports.router = router
+module.exports.router = router;

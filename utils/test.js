@@ -19,8 +19,7 @@ const forsquareParams = {
     v: '20170801',
     limit: 10
 };
-/*
-exports.waffleHouseLookup = function (lat, long) {
+exports.waffleHouseLookup = function test(lat, long) {
     const params = qs.stringify(Object.assign({
         ll: `${lat},${long}`
     }, forsquareParams));
@@ -32,11 +31,13 @@ exports.waffleHouseLookup = function (lat, long) {
             .then(body => {
                 try {
                     return JSON.parse(body).response.venues.map(venue => {
-                        console.log(venue.location.lat,venue.location.lng)
+                        latitude = venue.location.lat
+                        longitude = venue.location.lng
+                        console.log(wf(latitude, longitude))
                         return {
                             name: venue.name,
                             address: {
-                                google
+                                test
                             },
                             phone: venue.contact.formattedPhone,
                             distance: ( venue.location.distance / 1609.344 ).toFixed(2),
@@ -61,10 +62,10 @@ exports.waffleHouseLookup = function (lat, long) {
             });
     });
 };
-*/
+
 
 function wf(lat, long){
-    geocoder.reverse({lat:lat, lon:long})
+        geocoder.reverse({lat:lat, lon:long})
         .then((res)=>{
             formattedAddress = res[0].formattedAddress
             streetNumber = res[0].streetNumber
@@ -76,22 +77,22 @@ function wf(lat, long){
             country = res[0].country
             state = res[0].administrativeLevels.level1short
             countryCode = res[0].countryCode
+            street = `${streetNumber} ${streetName}`
             addr = {
-                address: `${streetNumber} ${streetName}`,
-                postalcode: `${postalCode}`,
-                city: `${cityName}`,
-                state: `${state}`,
-                country: `${country}`,
-                country_code: `${countryCode}`,
-                formatted_address: `${formattedAddress}`,
-                lat: `${la}`,
-                lng: `${lng}`
+                address: street,
+                postalcode: postalCode,
+                city: cityName,
+                state: state,
+                country: country,
+                country_code: countryCode,
+                formatted_address: formattedAddress,
+                lat: la,
+                lng: lng
             }
             console.log(addr)
+            return addr
         })
         .catch((err)=>{
             console.log(err)
         })
 }
-
-wf(33.70811738854921, -78.91176692003853)

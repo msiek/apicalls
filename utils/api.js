@@ -2,8 +2,7 @@ require('request');
 const request = require('request-promise-native');
 const qs = require('querystring');
 const baseFourSqURL = 'https://api.foursquare.com/v2/venues';
-
-const forsquareParams = {
+const foursquareParams = {
   client_id: 'GRGLBQDIY40TNUGKHJAPFOJAV0ZQF1ZZ1ASAGU14C4VGQI2Z',
   client_secret: 'ZOEYJUIIE2BT0DMFPYXHIBB0M0XTJ33ILIANKPIH4BSKCSWR',
   query: 'wafflehouse',
@@ -14,7 +13,7 @@ const forsquareParams = {
 exports.waffleHouseLookup = function (lat, long) {
   const params = qs.stringify(Object.assign({
       ll: `${lat},${long}`
-    }, forsquareParams));
+    }, foursquareParams));
 
   const url = `${baseFourSqURL}/search?${params}`;
 
@@ -23,7 +22,7 @@ exports.waffleHouseLookup = function (lat, long) {
       .then(body => {
         try {
           return JSON.parse(body).response.venues.map(venue => {
-            return {
+            result = {
               name: venue.name,
               address: {
                 street: venue.location.address,
@@ -32,16 +31,17 @@ exports.waffleHouseLookup = function (lat, long) {
                 state: venue.location.state,
                 country: venue.location.country,
                 country_code: venue.location.cc,
-                formated: venue.location.formattedAddress,
+                formatted: venue.location.formattedAddress,
                 lat: venue.location.lat,
                 lng: venue.location.lng,
               },
               phone: venue.contact.formattedPhone,
               distance: ( venue.location.distance / 1609.344 ).toFixed(2),
               meta: {
-                ...venue
+                //...venue
               }
             };
+              return result
           });
         } catch (err) {
           return reject({

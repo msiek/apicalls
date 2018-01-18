@@ -12,14 +12,14 @@ const request = require('request-promise-native');
 const qs = require('querystring');
 const baseFourSqURL = 'https://api.foursquare.com/v2/venues';
 
-const forsquareParams = {
+const foursquareParams = {
     client_id: 'GRGLBQDIY40TNUGKHJAPFOJAV0ZQF1ZZ1ASAGU14C4VGQI2Z',
     client_secret: 'ZOEYJUIIE2BT0DMFPYXHIBB0M0XTJ33ILIANKPIH4BSKCSWR',
     query: 'wafflehouse',
     v: '20170801',
     limit: 10
 };
-/*
+
 exports.waffleHouseLookup = function (lat, long) {
     const params = qs.stringify(Object.assign({
         ll: `${lat},${long}`
@@ -60,6 +60,7 @@ exports.waffleHouseLookup = function (lat, long) {
                     });
                 }
             })
+            .then(wf)
             .then(resolve)
             .catch(err => {
                 return reject({
@@ -70,8 +71,7 @@ exports.waffleHouseLookup = function (lat, long) {
     });
 };
 
-
-function wf(lat, long){
+const wf = function (lat, long){
         geocoder.reverse({lat:lat, lon:long})
         .then((res)=>{
             formattedAddress = res[0].formattedAddress
@@ -97,46 +97,9 @@ function wf(lat, long){
                 lng: lng
             }
             console.log(addr)
-            return addr
+            return Promise.resolve(addr)
         })
         .catch((err)=>{
             console.log(err)
         })
 }
-*/
-/* ES6 */
-const isMomHappy = true;
-
-// Promise
-const willIGetNewPhone = new Promise(
-    (resolve, reject) => { // fat arrow
-        if (isMomHappy) {
-            const phone = {
-                brand: 'Samsung',
-                color: 'black'
-            };
-            resolve(phone);
-            console.log(resolve)
-        } else {
-            const reason = new Error('mom is not happy');
-            reject(reason);
-        }
-
-    }
-);
-
-const showOff = function (phone) {
-    const message = 'Hey friend, I have a new ' +
-        phone.color + ' ' + phone.brand + ' phone';
-    return Promise.resolve(message);
-};
-
-// call our promise
-const askMom = function () {
-    willIGetNewPhone
-        .then(showOff)
-        .then(fulfilled => console.log(fulfilled)) // fat arrow
-        .catch(error => console.log(error.message)); // fat arrow
-};
-
-askMom();

@@ -32,7 +32,7 @@ exports.waffleHouseLookup = function (lat, long) {
             .then(body => {
                 try {
                     return JSON.parse(body).response.venues.map(venue => {
-                        result = {
+                        return {
                             name: venue.name,
                             address: {
                                 street: venue.location.address,
@@ -51,7 +51,6 @@ exports.waffleHouseLookup = function (lat, long) {
                                 //...venue
                             }
                         };
-                        return result
                     });
                 } catch (err) {
                     return reject({
@@ -60,7 +59,9 @@ exports.waffleHouseLookup = function (lat, long) {
                     });
                 }
             })
-            .then(wf)
+            .then(geocodeWaffles).then(data => {
+                console.log(data); return data;
+            })
             .then(resolve)
             .catch(err => {
                 return reject({
@@ -71,35 +72,48 @@ exports.waffleHouseLookup = function (lat, long) {
     });
 };
 
-const wf = function (lat, long){
-        geocoder.reverse({lat:lat, lon:long})
-        .then((res)=>{
-            formattedAddress = res[0].formattedAddress
-            streetNumber = res[0].streetNumber
-            streetName = res[0].streetName
-            la = res[0].latitude.toFixed(6)
-            lng = res[0].longitude.toFixed(6)
-            cityName = res[0].city
-            postalCode = res[0].zipcode
-            country = res[0].country
-            state = res[0].administrativeLevels.level1short
-            countryCode = res[0].countryCode
-            street = `${streetNumber} ${streetName}`
-            addr = {
-                address: street,
-                postalcode: postalCode,
-                city: cityName,
-                state: state,
-                country: country,
-                country_code: countryCode,
-                formatted_address: formattedAddress,
-                lat: la,
-                lng: lng
-            }
-            console.log(addr)
-            return Promise.resolve(addr)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
+const geocodeWaffles = function (venues){
+    const venuesPromises = venues.map(venue => {
+        return geocoder.reverse({lat:venue.address.lat, lon: venue.address.lng})
+            .then((res)=>{
+                const formatted_address = res[0].formattedAddress;
+                const streetNumber = res[0].streetNumber;
+                const streetName = res[0].streetName;
+                const lat = res[0].latitude.toFixed(6);
+                const lng = res[0].longitude.toFixed(6);
+                const city = res[0].city;
+                const postalcode = res[0].zipcode;
+                const country = res[0].country;
+                const state = res[0].administrativeLevels.level1short;
+                const country_code = res[0].countryCode;
+
+                return Object.assign(venue, {
+                    address: {
+                        address:  `${streetNumber} ${streetName}`,
+                        postalcode,
+                        city,
+                        state,
+                        country,
+                        country_code,
+                        formatted_address,
+                        lat,
+                        lng
+                    }
+                });
+            })
+            .catch((err)=>{
+                console.log(err)
+            });
+    });
+
+    return Promise.all(venuesPromises);
+
 }
+
+
+
+
+
+
+
+
